@@ -8,35 +8,29 @@ SR.Level = function(size) {
 	this.own(this.paused.$$mapObject(function(paused) {
 		return paused ? null : new JW.Interval(this.onTick, this, 1000 / SR.tickPerSecond);
 	}, this));
+	this.pathingMatrices = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
 };
 
 JW.extend(SR.Level, JW.Class, {
+	initPathingMatrices: function() {
+		this.pathingMatrices = [];
+		this.pathingMatrices.push(this._initMainPathingMatrix());
+		for (var i = 0; i < 3; ++i) {
+			this.pathingMatrices.push(this._extendPathingMatrix(this.pathingMatrices[i]));
+		}
+	},
+
 	onTick: function() {
 		this.tick.set(this.tick.get() + 1);
 		this.units.each(JW.byMethod("move", [this]));
 	},
 
-	isPassable: function(ij, considerUnits) {
-		if (this.matrix.getCell(ij) !== 0) {
-			return false;
-		}
-		var isObstacle = this.obstacles.some(function(obstacle) {
-			var d = SR.dir4[obstacle.direction];
-			var s = SR.Vector.diff(obstacle.type.size, [1, 1]);
-			var size = [
-				 d[1] * s[0] + d[0] * s[1],
-				-d[0] * s[0] + d[1] * s[1]
-			];
-			var ij1 = obstacle.ij;
-			var ij2 = SR.Vector.add(ij1, size);
-			var min = SR.Vector.min(ij1, ij2);
-			var max = SR.Vector.max(ij1, ij2);
-			return SR.Vector.isBetween(ij, min, max);
-		}, this);
-		if (isObstacle) {
+	isPassable: function(ij, unitSize, considerUnits) {
+		if (!this.pathingMatrices[unitSize].getCell(ij)) {
 			return false;
 		}
 		if (considerUnits) {
+			// TODO: rework using unit size
 			var isUnit = this.units.some(function(unit) {
 				return SR.Vector.equal(unit.ij.get(), ij);
 			}, this);
@@ -47,12 +41,12 @@ JW.extend(SR.Level, JW.Class, {
 		return true;
 	},
 
-	findPath: function(sij, tij, considerUnits) {
-		var distanceMatrix = this.getDistanceMatrix(sij, tij, considerUnits);
+	findPath: function(sij, tij, unitSize, considerUnits) {
+		var distanceMatrix = this.getDistanceMatrix(sij, tij, unitSize, considerUnits);
 		return this.backtracePath(distanceMatrix, tij);
 	},
 
-	getDistanceMatrix: function(sij, tij, considerUnits) {
+	getDistanceMatrix: function(sij, tij, unitSize, considerUnits) {
 		var distances = new SR.Matrix(this.matrix.size);
 		distances.setCell(sij, 0);
 
@@ -81,7 +75,7 @@ JW.extend(SR.Level, JW.Class, {
 					continue;
 				}
 				var cell = this.matrix.getCell(dij);
-				if (!this.isPassable(dij, considerUnits)) {
+				if (!this.isPassable(dij, unitSize, considerUnits)) {
 					continue;
 				}
 				distances.setCell(dij, movement);
@@ -115,6 +109,59 @@ JW.extend(SR.Level, JW.Class, {
 			path.push(dir);
 			tij = sij;
 		}
+	},
+
+	_initMainPathingMatrix: function() {
+		var matrix = new SR.Matrix(this.matrix.size);
+		for (var i = 0; i < matrix.size; ++i) {
+			for (var j = 0; j < matrix.size; ++j) {
+				var ij = [i, j];
+				matrix.setCell(ij, this._isPassable(ij));
+			}
+		}
+		return matrix;
+	},
+
+	_extendPathingMatrix: function(source) {
+		var matrix = new SR.Matrix(this.matrix.size);
+		for (var i = 0; i < matrix.size; ++i) {
+			for (var j = 0; j < matrix.size; ++j) {
+				var ij = [i, j];
+				var passable = true;
+				for (var d = 0; d < 8; ++d) {
+					var dij = SR.Vector.add(ij, SR.dir8[d]);
+					if (!matrix.inMatrix(dij) || !source.getCell(dij)) {
+						var passable = false;
+						break;
+					}
+				}
+				matrix.setCell(ij, passable);
+			}
+		}
+		return matrix;
+	},
+
+	_isPassable: function(ij) {
+		if (this.matrix.getCell(ij) !== 0) {
+			return false;
+		}
+		var isObstacle = this.obstacles.some(function(obstacle) {
+			var d = SR.dir4[obstacle.direction];
+			var s = SR.Vector.diff(obstacle.type.size, [1, 1]);
+			var size = [
+				 d[1] * s[0] + d[0] * s[1],
+				-d[0] * s[0] + d[1] * s[1]
+			];
+			var ij1 = obstacle.ij;
+			var ij2 = SR.Vector.add(ij1, size);
+			var min = SR.Vector.min(ij1, ij2);
+			var max = SR.Vector.max(ij1, ij2);
+			return SR.Vector.isBetween(ij, min, max);
+		}, this);
+		if (isObstacle) {
+			return false;
+		}
+		return true;
 	}
 });
 

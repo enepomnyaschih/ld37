@@ -12,7 +12,7 @@ JW.extend(SR.HabitantUnitView, SR.UnitView, {
 	beforeRender: function() {
 		this._super();
 		this.animationPoint = this.own(this.unit.animationTick.$$mapValue(function(animationTick) {
-			return 2 * Math.abs(2 * JW.smod(animationTick / this.animationPeriod, 1)) - 1;
+			return 2 * Math.abs(2 * JW.smod(animationTick / this.animationPeriod + .25, 1)) - 1;
 		}, this));
 	},
 

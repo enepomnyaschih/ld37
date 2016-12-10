@@ -35,6 +35,13 @@ JW.extend(SR.Application, JW.UI.Component, {
 			controllable: true,
 			type: SR.UnitType.getItem("spider")
 		}));
+		level.units.add(new SR.Unit({
+			ij: [20, 20],
+			direction: 0,
+			controllable: false,
+			type: SR.UnitType.getItem("habitant")
+		}));
+		level.initPathingMatrices();
 		this.level.set(level);
 		return this;
 	}
