@@ -116,7 +116,7 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 	},
 
 	_onKeyPress: function(e) {
-		if (e.keyCode === 32) {
+		if (e.which === 32) {
 			e.preventDefault();
 			var selectedUnits = this.level.getSelectedUnits();
 			var isInactiveUnit = selectedUnits.some(function(unit) {
