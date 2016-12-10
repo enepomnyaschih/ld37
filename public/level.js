@@ -69,6 +69,9 @@ JW.extend(SR.Level, JW.Class, {
 			if (tail == movementHead) {
 				++movement;
 				movementHead = queue.length;
+				if (distances.getCell(tij) != null) {
+					return distances;
+				}
 			}
 			var cij = queue[tail++];
 			for (var dir = 0; dir < SR.dir4.length; ++dir) {
@@ -82,9 +85,6 @@ JW.extend(SR.Level, JW.Class, {
 					continue;
 				}
 				distances.setCell(dij, movement);
-				if (SR.Vector.equal(tij, dij)) {
-					return distances;
-				}
 				queue.push(dij);
 			}
 		}
@@ -103,14 +103,16 @@ JW.extend(SR.Level, JW.Class, {
 				return path;
 			}
 			--distance;
-			var d, sij;
+			var dir, sij;
+			var c = SR.random(4);
 			for (d = 0; d < 4; ++d) {
-				sij = SR.Vector.diff(tij, SR.dir4[d]);
+				var dir = (d + c) % 4;
+				sij = SR.Vector.diff(tij, SR.dir4[dir]);
 				if (distanceMatrix.getCell(sij) === distance) {
 					break;
 				}
 			}
-			path.push(d);
+			path.push(dir);
 			tij = sij;
 		}
 	}
