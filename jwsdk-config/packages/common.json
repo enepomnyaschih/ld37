@@ -26,6 +26,8 @@
 		"unitView.jw.html : SR.UnitView",
 		"habitantUnitView.js",
 		"habitantUnitView.jw.html : SR.HabitantUnitView",
+		"spiderUnitView.js",
+		"spiderUnitView.jw.html : SR.SpiderUnitView",
 
 		"vector.js",
 

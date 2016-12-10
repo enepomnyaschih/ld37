@@ -1,6 +1,5 @@
 SR.HabitantUnitView = function(unit) {
-	SR.HabitantUnitView._super.call(this);
-	this.unit = unit; // SR.Unit
+	SR.HabitantUnitView._super.call(this, unit);
 	this.animationPoint = null; // JW.Property<number>
 };
 

@@ -21,6 +21,9 @@ JW.makeRegistry(SR.UnitType);
 SR.UnitType.registerItem(new SR.UnitType({
 	id: "spider",
 	speed: 0.2,
+	viewCreator: function(unit) {
+		return new SR.SpiderUnitView(unit);
+	},
 	mover: function(unit, level) {
 		if (level.isWebCell(unit.ij.get())) {
 			unit.energy.set(Math.min(1, unit.energy.get() + 1 / SR.spiderEnergyFillingPeriod));
