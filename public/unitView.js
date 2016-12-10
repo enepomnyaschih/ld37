@@ -25,5 +25,7 @@ JW.extend(SR.UnitView, JW.UI.Component, {
 			return "rotate(" + (-90 * direction) + "deg)"
 		}, this));
 		this.own(el.jwcss("transform", transform));
+
+		this.own(el.jwclass("selected", this.unit.selected));
 	}
 });

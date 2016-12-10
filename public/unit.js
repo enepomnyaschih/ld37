@@ -7,6 +7,7 @@ SR.Unit = function(config) {
 	this.type = config.type; // SR.UnitType
 	this.ijTarget = new JW.Property(); // SR.Vector
 	this.path = []; // Array<number>
+	this.selected = new JW.Property(false); // Boolean
 };
 
 JW.extend(SR.Unit, JW.Class, {

@@ -27,12 +27,32 @@ SR.Vector = {
 		return Math.max(Math.abs(a[0]), Math.abs(a[1]));
 	},
 
-	between: function(a, b, c) {
+	lerp: function(a, b, c) {
 		return SR.Vector.add(a, SR.Vector.mult(SR.Vector.diff(b, a), c))
+	},
+
+	isBetween: function(a, min, max) {
+		return (a[0] >= min[0]) && (a[1] >= min[1]) && (a[0] <= max[0]) && (a[1] <= max[1]);
 	},
 
 	round: function(a) {
 		return [Math.round(a[0]), Math.round(a[1])];
+	},
+
+	floor: function(a) {
+		return [Math.floor(a[0]), Math.floor(a[1])];
+	},
+
+	ceil: function(a) {
+		return [Math.ceil(a[0]), Math.ceil(a[1])];
+	},
+
+	min: function(a, b) {
+		return [Math.min(a[0], b[0]), Math.min(a[1], b[1])];
+	},
+
+	max: function(a, b) {
+		return [Math.max(a[0], b[0]), Math.max(a[1], b[1])];
 	},
 
 	norm8: function(a) {

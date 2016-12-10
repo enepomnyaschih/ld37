@@ -50,6 +50,10 @@ var SR = {
 		return [SR.cellSize * ij[1], SR.cellSize * ij[0]];
 	},
 
+	xyToIj: function(xy) {
+		return [xy[1] / SR.cellSize, xy[0] / SR.cellSize];
+	},
+
 	getXProperty: function(xy) {
 		return xy.$$mapValue(function(xy) {
 			return xy[0] + "px";
