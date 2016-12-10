@@ -8,6 +8,10 @@
 		position absolute
 		xy 0 0
 
+	&-units
+		position absolute
+		xy 8px 8px
+
 	&-cell
 		background black none scroll 0 0 no-repeat
 		float left
@@ -36,13 +40,16 @@
 
 .sr-unit
 	position absolute
-	transform-origin 8px 8px 0
+	size 0 0
 
-	&[sr-type="spider"]
-		background transparent url(images/spider.png) scroll 0 0 no-repeat
+	&-view
+		position absolute
 
-	&.selected
-		outline 1px solid green
+		&.selected
+			outline 1px solid green
+
+		&[sr-type="spider"]
+			background transparent url(images/spider.png) scroll 0 0 no-repeat
 
 .sr-habitant
 	&-body

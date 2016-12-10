@@ -1,6 +1,6 @@
 SR.Unit = function(config) {
 	SR.Unit._super.call(this);
-	this.ij = new JW.Property(config.ij); // SR.Vector
+	this.ij = new JW.Property(config.ij); // SR.Vector, center
 	this.direction = new JW.Property(config.direction); // number
 	this.movement = new JW.Property(0); // number, процент движения из клетки A в клетку B, от -1 до 0
 	this.controllable = config.controllable; // boolean

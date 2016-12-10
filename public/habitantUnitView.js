@@ -16,12 +16,6 @@ JW.extend(SR.HabitantUnitView, SR.UnitView, {
 		}, this));
 	},
 
-	renderRoot: function(el) {
-		this._super(el);
-		el.css("width",  "112px");
-		el.css("height", "112px");
-	},
-
 	renderBody: function(el) {
 		var transform = this.own(this.animationPoint.$$mapValue(function(animationPoint) {
 			return "rotate(" + (-animationPoint * this.bodyRotationAmplitude) + "deg)";

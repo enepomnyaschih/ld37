@@ -23,6 +23,7 @@
 		"unitType.js",
 
 		"unitView.js",
+		"unitView.jw.html : SR.UnitView",
 		"habitantUnitView.js",
 		"habitantUnitView.jw.html : SR.HabitantUnitView",
 

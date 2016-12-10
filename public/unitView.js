@@ -5,9 +5,6 @@ SR.UnitView = function(unit) {
 
 JW.extend(SR.UnitView, JW.UI.Component, {
 	renderRoot: function(el) {
-		el.addClass("sr-unit");
-		el.attr("sr-type", this.unit.type.id);
-
 		var xy = this.own(new JW.Functor([this.unit.ij, this.unit.direction, this.unit.movement],
 			function(ij, direction, movement) {
 				return SR.ijToXy(SR.Vector.add(ij, SR.Vector.mult(SR.dir4[direction], movement)));
@@ -16,9 +13,17 @@ JW.extend(SR.UnitView, JW.UI.Component, {
 		var y = this.own(SR.getYProperty(xy));
 		this.own(el.jwcss("left", x));
 		this.own(el.jwcss("top", y));
+	},
 
-		el.css("width",  "16px");
-		el.css("height", "16px");
+	renderView: function(el) {
+		el.attr("sr-type", this.unit.type.id);
+
+		var size = (2 * this.unit.type.size + 1) * SR.cellSize;
+		var half = size / 2;
+		el.css("width",  size + "px");
+		el.css("height", size + "px");
+		el.css("left",  -half + "px");
+		el.css("top",   -half + "px");
 
 		var transform = this.own(this.unit.direction.$$mapValue(function(direction) {
 			return "rotate(" + (-90 * direction) + "deg)"
