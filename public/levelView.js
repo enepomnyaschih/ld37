@@ -63,8 +63,18 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 	_onMouseDown: function(e) {
 		e.preventDefault();
 		var point = this._getPointByEvent(e);
-		this.selectionPoint1.set(point);
-		this.selectionPoint2.set(point);
+		if (e.which === 1) {
+			this.selectionPoint1.set(point);
+			this.selectionPoint2.set(point);
+		}
+		if (e.which === 3) {
+			var ij = SR.Vector.floor(SR.xyToIj(point));
+			this.level.units.$filter(function(unit) {
+				return unit.selected.get();
+			}, this).each(function(unit) {
+				unit.send(this.level, ij);
+			}, this);
+		}
 	},
 
 	_onMouseMove: function(e) {

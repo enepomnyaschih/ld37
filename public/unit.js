@@ -29,5 +29,11 @@ JW.extend(SR.Unit, JW.Class, {
 				this.movement.set(0);
 			}
 		}
+	},
+
+	send: function(level, tij, considerUnits) {
+		// ij is not null
+		this.ijTarget.set(tij);
+		this.path = level.findPath(this.ij.get(), tij, considerUnits) || [];
 	}
 });
