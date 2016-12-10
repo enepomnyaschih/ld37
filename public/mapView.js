@@ -26,6 +26,12 @@ JW.extend(SR.MapView, JW.UI.Component, {
 	renderObstacles: function() {
 		return this.own(this.map.obstacles.$$mapObjects(function(obstacle) {
 			return new SR.ObstacleView(obstacle);
-		}));
+		}, this));
+	},
+
+	renderUnits: function() {
+		return this.own(this.map.units.$$mapObjects(function(unit) {
+			return new SR.UnitView(unit);
+		}, this));
 	}
 });

@@ -1,5 +1,6 @@
 var SR = {
 	cellSize: 16,
+	tickPerSecond: 25,
 
 	dir4: [
 		[0, 1],
@@ -47,5 +48,17 @@ var SR = {
 
 	ijToXy: function(ij) {
 		return [SR.cellSize * ij[1], SR.cellSize * ij[0]];
+	},
+
+	getXProperty: function(xy) {
+		return xy.$$mapValue(function(xy) {
+			return xy[0] + "px";
+		});
+	},
+
+	getYProperty: function(xy) {
+		return xy.$$mapValue(function(xy) {
+			return xy[1] + "px";
+		});
 	}
 };

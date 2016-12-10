@@ -2,7 +2,7 @@ SR.Map = function(size) {
 	SR.Map._super.call(this);
 	this.matrix = new SR.Matrix(size);
 	this.obstacles = new JW.ObservableArray();
-	//this.spiders = new JW.ObservableArray();
+	this.units = new JW.ObservableArray();
 };
 
 JW.extend(SR.Map, JW.Class);

@@ -19,6 +19,9 @@
 		"obstacle.js",
 		"obstacleType.js",
 		"obstacleView.js",
+		"unit.js",
+		"unitType.js",
+		"unitView.js",
 		"vector.js",
 
 		"boot.js"

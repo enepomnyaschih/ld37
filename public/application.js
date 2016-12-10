@@ -20,9 +20,15 @@ JW.extend(SR.Application, JW.UI.Component, {
 		}
 		this.map.obstacles.add(new SR.Obstacle({
 			type: SR.ObstacleType.getItem("bed"),
-			ij: [1, 11],
+			ij: [1, 10],
 			direction: 3
 		}));
+		this.map.units.add(new SR.Unit({
+			ij: [35, 5],
+			direction: 1,
+			controllable: true,
+			type: SR.UnitType.getItem("spider")
+		}))
 		this.children.set(new SR.MapView(this.map), "map");
 		return this;
 	}
