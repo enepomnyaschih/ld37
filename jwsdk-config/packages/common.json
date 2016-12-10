@@ -5,5 +5,22 @@
 		"bower_components/jwidget/jwui.js|auto"
 	],
 	"resources": [
+		"thirdparty/reset.css",
+
+		"sr.js",
+
+		"application.js",
+		"application.jw.html : SR.Application",
+		"map.js",
+		"mapView.js",
+		"mapView.jw.html : SR.MapView",
+		"mapView.styl",
+		"matrix.js",
+		"obstacle.js",
+		"obstacleType.js",
+		"obstacleView.js",
+		"vector.js",
+
+		"boot.js"
 	]
 }
