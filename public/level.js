@@ -1,11 +1,11 @@
-SR.Map = function(size) {
-	SR.Map._super.call(this);
+SR.Level = function(size) {
+	SR.Level._super.call(this);
 	this.matrix = new SR.Matrix(size);
 	this.obstacles = new JW.ObservableArray();
 	this.units = new JW.ObservableArray();
 };
 
-JW.extend(SR.Map, JW.Class);
+JW.extend(SR.Level, JW.Class);
 
 /*
 Значения матрицы

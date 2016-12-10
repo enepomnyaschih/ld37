@@ -4,4 +4,5 @@
 /public/bower_components
 /public/build
 /public/*.html
+!/public/*.jw.html
 /.sass-cache
