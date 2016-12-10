@@ -12,6 +12,7 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		this.own($(window).jwon("mousemove", this._onMouseMove, this));
 		this.own($(window).jwon("mouseup", this._onMouseUp, this));
 		this.own(el.jwon("contextmenu", JW.UI.preventDefault));
+		this.own($(window).jwon("keypress", this._onKeyPress, this));
 	},
 
 	renderMatrix: function(el) {
@@ -44,6 +45,23 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		}, this));
 	},
 
+	renderWebCells: function(el) {
+		this.own(this.level.webCells.createMapper({
+			createItem: function(ij) {
+				var cellEl = $('<div class="sr-web-cell"></div>');
+				var xy = SR.ijToXy(ij);
+				cellEl.css("left", xy[0] + "px");
+				cellEl.css("top",  xy[1] + "px");
+				el.append(cellEl);
+				return cellEl;
+			},
+			destroyItem: function(cellEl) {
+				cellEl.remove();
+			},
+			scope: this
+		}))
+	},
+
 	renderSelection: function(el) {
 		this.own(new JW.Updater([this.selectionPoint1, this.selectionPoint2], function(p1, p2) {
 			if (!p1 || !p2) {
@@ -69,9 +87,7 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		}
 		if (e.which === 3) {
 			var ij = SR.Vector.floor(SR.xyToIj(point));
-			this.level.units.$filter(function(unit) {
-				return unit.selected.get();
-			}, this).each(function(unit) {
+			this.level.getSelectedUnits().each(function(unit) {
 				unit.send(this.level, ij);
 			}, this);
 		}
@@ -97,6 +113,19 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		this.level.units.each(function(unit) {
 			unit.selected.set(unit.controllable && SR.Vector.isBetween(unit.ij.get(), ijMin, ijMax));
 		}, this);
+	},
+
+	_onKeyPress: function(e) {
+		if (e.keyCode === 32) {
+			e.preventDefault();
+			var selectedUnits = this.level.getSelectedUnits();
+			var isInactiveUnit = selectedUnits.some(function(unit) {
+				return !unit.active.get();
+			}, this);
+			selectedUnits.each(function(unit) {
+				unit.active.set(isInactiveUnit);
+			}, this);
+		}
 	},
 
 	_getPointByEvent: function(e) {

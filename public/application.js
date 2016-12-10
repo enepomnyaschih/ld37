@@ -22,7 +22,9 @@ JW.extend(SR.Application, JW.UI.Component, {
 		}
 		for (var i = 0; i < 15; ++i) {
 			level.matrix.setCell([24, i + 1], 1);
-			level.matrix.setCell([38 - i, 15], 1);
+			if (i < 3 || i > 10) {
+				level.matrix.setCell([38 - i, 15], 1);
+			}
 		}
 		level.obstacles.add(new SR.Obstacle({
 			type: SR.ObstacleType.getItem("bed"),

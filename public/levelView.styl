@@ -5,6 +5,7 @@
 
 	&-matrix
 	&-obstacles
+	&-web-cells
 		position absolute
 		xy 0 0
 
@@ -19,7 +20,7 @@
 		size 16px 16px
 
 		&[sr-type="0"]
-			background-color #FFE575
+			background-color #E5CC69
 
 		&[sr-type="1"]
 			background-color #AF4407
@@ -51,6 +52,9 @@
 		&[sr-type="spider"]
 			background transparent url(images/spider.png) scroll 0 0 no-repeat
 
+			&.active
+				background-image url(images/spider-active.png)
+
 .sr-habitant
 	&-body
 		background transparent url(images/body.png) scroll 0 0 no-repeat
@@ -69,3 +73,8 @@
 		position absolute
 		height 48px
 		top 64px
+
+.sr-web-cell
+	background transparent url(images/web.png) scroll 0 0 no-repeat
+	position absolute
+	size 16px 16px

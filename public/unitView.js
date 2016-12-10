@@ -31,5 +31,6 @@ JW.extend(SR.UnitView, JW.UI.Component, {
 		this.own(el.jwcss("transform", transform));
 
 		this.own(el.jwclass("selected", this.unit.selected));
+		this.own(el.jwclass("active", this.unit.active));
 	}
 });

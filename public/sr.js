@@ -1,6 +1,8 @@
 var SR = {
 	cellSize: 16,
 	tickPerSecond: 25,
+	spiderEnergyFillingPeriod: 1500,
+	spiderEnergyPerWeb: 0.1,
 
 	dir4: [
 		[0, 1],

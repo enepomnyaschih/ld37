@@ -2,8 +2,9 @@ SR.Level = function(size) {
 	SR.Level._super.call(this);
 	this.tick = new JW.Property(0);
 	this.matrix = new SR.Matrix(size);
-	this.obstacles = new JW.ObservableArray();
-	this.units = new JW.ObservableArray();
+	this.obstacles = this.own(new JW.ObservableArray()).ownItems();
+	this.units = this.own(new JW.ObservableArray()).ownItems();
+	this.webCells = this.own(new JW.ObservableArray()).ownItems();
 	this.paused = new JW.Property(false);
 	this.own(this.paused.$$mapObject(function(paused) {
 		return paused ? null : new JW.Interval(this.onTick, this, 1000 / SR.tickPerSecond);
@@ -26,6 +27,7 @@ JW.extend(SR.Level, JW.Class, {
 	},
 
 	isPassable: function(ij, unitSize, considerUnits) {
+		unitSize = unitSize || 0;
 		if (!this.pathingMatrices[unitSize].getCell(ij)) {
 			return false;
 		}
@@ -109,6 +111,19 @@ JW.extend(SR.Level, JW.Class, {
 			path.push(dir);
 			tij = sij;
 		}
+	},
+
+	getSelectedUnits: function() {
+		return this.units.$filter(function(unit) {
+			return unit.selected.get();
+		}, this);
+	},
+
+	// TODO: Optimize using an extra matrix
+	isWebCell: function(ij) {
+		return this.webCells.some(function(webCell) {
+			return SR.Vector.equal(webCell, ij);
+		}, this);
 	},
 
 	_initMainPathingMatrix: function() {

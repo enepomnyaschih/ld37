@@ -9,6 +9,8 @@ SR.Unit = function(config) {
 	this.path = []; // Array<number>
 	this.selected = new JW.Property(false); // Boolean
 	this.animationTick = new JW.Property(0); // Number
+	this.energy = new JW.Property(1); // Number
+	this.active = new JW.Property(false); // Boolean
 };
 
 JW.extend(SR.Unit, JW.Class, {
@@ -34,6 +36,7 @@ JW.extend(SR.Unit, JW.Class, {
 				this.animationTick.set(0);
 			}
 		}
+		this.type.mover(this, level);
 	},
 
 	send: function(level, tij, considerUnits) {
