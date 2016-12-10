@@ -1,0 +1,7 @@
+/jwsdk-config/json
+/jwsdk-config/snippets
+/jwsdk-config/temp
+/public/bower_components
+/public/build
+/public/*.html
+/.sass-cache

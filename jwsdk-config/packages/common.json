@@ -1,0 +1,9 @@
+{
+	"requires": [
+		"bower_components/jquery/dist/jquery.js|auto",
+		"bower_components/jwidget/jwlib.js|auto",
+		"bower_components/jwidget/jwui.js|auto"
+	],
+	"resources": [
+	]
+}

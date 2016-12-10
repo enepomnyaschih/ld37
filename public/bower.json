@@ -1,0 +1,8 @@
+{
+  "name": "ld37",
+  "private": true,
+  "dependencies": {
+    "jquery": "2.2.4",
+    "jwidget": "1.4.6"
+  }
+}
