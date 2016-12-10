@@ -40,7 +40,7 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 
 	renderUnits: function() {
 		return this.own(this.level.units.$$mapObjects(function(unit) {
-			return new SR.UnitView(unit);
+			return unit.type.viewCreator(unit);
 		}, this));
 	},
 

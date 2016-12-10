@@ -7,7 +7,6 @@ JW.extend(SR.UnitView, JW.UI.Component, {
 	renderRoot: function(el) {
 		el.addClass("sr-unit");
 		el.attr("sr-type", this.unit.type.id);
-		el.attr("sr-direction", this.unit.direction);
 
 		var xy = this.own(new JW.Functor([this.unit.ij, this.unit.direction, this.unit.movement],
 			function(ij, direction, movement) {

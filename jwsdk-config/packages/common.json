@@ -21,7 +21,11 @@
 		"obstacleView.js",
 		"unit.js",
 		"unitType.js",
+
 		"unitView.js",
+		"habitantUnitView.js",
+		"habitantUnitView.jw.html : SR.HabitantUnitView",
+
 		"vector.js",
 
 		"boot.js"

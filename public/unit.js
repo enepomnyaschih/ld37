@@ -8,11 +8,15 @@ SR.Unit = function(config) {
 	this.ijTarget = new JW.Property(); // SR.Vector
 	this.path = []; // Array<number>
 	this.selected = new JW.Property(false); // Boolean
+	this.animationTick = new JW.Property(0); // Number
 };
 
 JW.extend(SR.Unit, JW.Class, {
 	move: function(level) {
 		var movement = this.type.speed;
+		if (this.path.length || this.movement.get() !== 0) {
+			this.animationTick.set(this.animationTick.get() + movement);
+		}
 		while (movement && (this.path.length || this.movement.get() !== 0)) {
 			var remainingMovement = -this.movement.get();
 			if (movement < remainingMovement) {
@@ -27,6 +31,7 @@ JW.extend(SR.Unit, JW.Class, {
 				this.direction.set(direction);
 			} else {
 				this.movement.set(0);
+				this.animationTick.set(0);
 			}
 		}
 	},
