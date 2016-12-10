@@ -1,0 +1,8 @@
+{
+	"name": "jwidget",
+	"version": "1.4.6",
+	"main": [
+		"jwlib.js"
+	],
+	"ignore": []
+}
