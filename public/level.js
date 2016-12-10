@@ -14,6 +14,37 @@ JW.extend(SR.Level, JW.Class, {
 	onTick: function() {
 		this.tick.set(this.tick.get() + 1);
 		this.units.each(JW.byMethod("move", [this]));
+	},
+
+	isPassable: function(ij, considerUnits) {
+		if (this.matrix.getCell(ij) !== 0) {
+			return false;
+		}
+		var isObstacle = this.obstacles.some(function(obstacle) {
+			var d = SR.dir4[obstacle.direction];
+			var s = SR.Vector.diff(obstacle.type.size, [1, 1]);
+			var size = [
+				 d[1] * s[0] + d[0] * s[1],
+				-d[0] * s[0] + d[1] * s[1]
+			];
+			var ij1 = obstacle.ij;
+			var ij2 = SR.Vector.add(ij1, size);
+			var min = SR.Vector.min(ij1, ij2);
+			var max = SR.Vector.max(ij1, ij2);
+			return SR.Vector.isBetween(ij, min, max);
+		}, this);
+		if (isObstacle) {
+			return false;
+		}
+		if (considerUnits) {
+			var isUnit = this.units.some(function(unit) {
+				return SR.Vector.equal(unit.ij.get(), ij);
+			}, this);
+			if (isUnit) {
+				return false;
+			}
+		}
+		return true;
 	}
 });
 

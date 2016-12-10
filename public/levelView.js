@@ -11,6 +11,7 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		this.own(el.jwon("mousedown", this._onMouseDown, this));
 		this.own($(window).jwon("mousemove", this._onMouseMove, this));
 		this.own($(window).jwon("mouseup", this._onMouseUp, this));
+		this.own(el.jwon("contextmenu", JW.UI.preventDefault));
 	},
 
 	renderMatrix: function(el) {
@@ -72,15 +73,20 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 	},
 
 	_onMouseUp: function(e) {
-		var min = SR.Vector.min(this.selectionPoint1.get(), this.selectionPoint2.get());
-		var max = SR.Vector.max(this.selectionPoint1.get(), this.selectionPoint2.get());
+		var p1 = this.selectionPoint1.get();
+		var p2 = this.selectionPoint2.get();
+		this.selectionPoint1.set(null);
+		this.selectionPoint2.set(null);
+		if (!p1 || !p2) {
+			return;
+		}
+		var min = SR.Vector.min(p1, p2);
+		var max = SR.Vector.max(p1, p2);
 		var ijMin = SR.Vector.floor(SR.xyToIj(min));
 		var ijMax = SR.Vector.floor(SR.xyToIj(max));
 		this.level.units.each(function(unit) {
 			unit.selected.set(unit.controllable && SR.Vector.isBetween(unit.ij.get(), ijMin, ijMax));
 		}, this);
-		this.selectionPoint1.set(null);
-		this.selectionPoint2.set(null);
 	},
 
 	_getPointByEvent: function(e) {
