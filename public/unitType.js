@@ -22,11 +22,11 @@ SR.UnitType.registerItem(new SR.UnitType({
 	id: "spider",
 	speed: 0.2,
 	mover: function(unit, level) {
-		if (!unit.active.get()) {
-			return;
-		}
 		if (level.isWebCell(unit.ij.get())) {
 			unit.energy.set(Math.min(1, unit.energy.get() + 1 / SR.spiderEnergyFillingPeriod));
+			return;
+		}
+		if (!unit.active.get()) {
 			return;
 		}
 		if (unit.energy.get() < SR.spiderEnergyPerWeb) {
