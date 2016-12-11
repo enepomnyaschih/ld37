@@ -35,6 +35,17 @@ SR.UnitType.registerItem(new SR.UnitType({
 			unit.energy.set(Math.min(1, unit.energy.get() + SR.spiderEnergyFillingPerFly));
 		}
 
+		// Spreading around
+		if (!unit.isMoving()) {
+			var isAnotherSpider = level.units.search(function(spider) {
+				return (spider !== unit) && spider.type.isMinion &&
+					SR.Vector.equal(spider.ij.get(), unit.ij.get());
+			}, this);
+			if (isAnotherSpider) {
+				unit.send(level, SR.Vector.add(unit.ij.get(), SR.dir4[SR.random(4)]));
+			}
+		}
+
 		// Building web
 		if (level.isWebCell(unit.ij.get())) {
 			return;
@@ -132,7 +143,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		var ijActionAbsolute = SR.Vector.add(unit.targetObstacle.ij, ijActionRotated);
 		if (SR.Vector.equal(unit.ij.get(), ijActionAbsolute) && unit.movement.get() === 0) {
 			unit.actingObstacle = unit.targetObstacle;
-		} else if (!unit.path.length && unit.movement.get() === 0) {
+		} else if (!unit.isMoving()) {
 			unit.send(level, ijActionAbsolute);
 		}
 	}

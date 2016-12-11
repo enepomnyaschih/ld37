@@ -36,10 +36,10 @@ JW.extend(SR.Unit, JW.Class, {
 		}
 
 		var movement = this.type.speed;
-		if (this.path.length || this.movement.get() !== 0) {
+		if (this.isMoving()) {
 			this.animationTick.set(this.animationTick.get() + movement);
 		}
-		while (movement && (this.path.length || this.movement.get() !== 0)) {
+		while (movement && this.isMoving()) {
 			var remainingMovement = -this.movement.get();
 			if (movement < remainingMovement) {
 				this.movement.set(this.movement.get() + movement);
@@ -63,5 +63,9 @@ JW.extend(SR.Unit, JW.Class, {
 		// ij is not null
 		this.ijTarget.set(tij);
 		this.path = level.findPath(this.ij.get(), tij, this.type.size, considerUnits, this.type.hitsObstacles) || [];
+	},
+
+	isMoving: function() {
+		return this.path.length || this.movement.get() !== 0;
 	}
 });

@@ -46,12 +46,14 @@ JW.extend(SR.Application, JW.UI.Component, {
 			ij: [38, 30],
 			direction: 1
 		}));
-		level.units.add(new SR.Unit({
-			ij: [35, 5],
-			direction: 1,
-			controllable: true,
-			type: SR.UnitType.getItem("spider")
-		}));
+		for (var i = 0; i < 3; ++i) {
+			level.units.add(new SR.Unit({
+				ij: [35 + i, 5],
+				direction: i,
+				controllable: true,
+				type: SR.UnitType.getItem("spider")
+			}));
+		}
 		level.units.add(new SR.Unit({
 			ij: [20, 25],
 			direction: 0,
