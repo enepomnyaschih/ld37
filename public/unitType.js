@@ -86,6 +86,19 @@ SR.UnitType.registerItem(new SR.UnitType({
 			if (Math.random() < .5) {
 				level.units.removeItem(victimUnit);
 			}
+			return;
+		}
+
+		var victimWeb = level.webCells.search(function(victimWeb) {
+			return SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimWeb)) <= SR.attackDistance &&
+				!level.isWallBetween(unit.ij.get(), victimWeb);
+		}, this);
+		if (victimWeb) {
+			unit.attackIj.set(victimWeb);
+			unit.attackTick = 10;
+			unit.attackType.set(1);
+			level.webCells.removeItem(victimWeb);
+			return;
 		}
 
 		// Patrolling
