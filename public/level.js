@@ -5,6 +5,7 @@ SR.Level = function(size) {
 	this.obstacles = this.own(new JW.ObservableArray()).ownItems();
 	this.units = this.own(new JW.ObservableArray()).ownItems();
 	this.webCells = this.own(new JW.ObservableArray()).ownItems();
+	this.flies = this.own(new JW.ObservableArray()).ownItems();
 	this.paused = new JW.Property(false);
 	this.own(this.paused.$$mapObject(function(paused) {
 		return paused ? null : new JW.Interval(this.onTick, this, 1000 / SR.tickPerSecond);

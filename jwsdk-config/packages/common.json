@@ -11,6 +11,8 @@
 
 		"application.js",
 		"application.jw.html : SR.Application",
+		"fly.js",
+		"flyView.js",
 		"level.js",
 		"levelView.js",
 		"levelView.jw.html : SR.LevelView",

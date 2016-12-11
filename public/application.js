@@ -58,6 +58,10 @@ JW.extend(SR.Application, JW.UI.Component, {
 			controllable: false,
 			type: SR.UnitType.getItem("habitant")
 		}));
+		level.flies.add(new SR.Fly({
+			ij: [20, 20],
+			angle: 0
+		}));
 		level.initPathingMatrices();
 		this.level.set(level);
 		return this;

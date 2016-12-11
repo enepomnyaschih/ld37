@@ -45,6 +45,12 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		}, this));
 	},
 
+	renderFlies: function() {
+		return this.own(this.level.flies.$$mapObjects(function(fly) {
+			return new SR.FlyView(fly);
+		}, this));
+	},
+
 	renderWebCells: function(el) {
 		this.own(this.level.webCells.createMapper({
 			createItem: function(ij) {
