@@ -16,10 +16,14 @@ JW.extend(SR.Fly, JW.Class, {
 	sitProbability: 0.05,
 	sitMaxTime: 175,
 	sitMinTime: 50,
+	scaredDistance: 4,
 
 	move: function(level) {
 		if (this.sittingTicks.get()) {
-			this.sittingTicks.set(this.sittingTicks.get() - 1);
+			var isSpiderNearby = level.units.some(function(unit) {
+				return unit.type.isMinion && SR.Vector.length8(SR.Vector.diff(unit.ij.get(), this.ij.get())) < this.scaredDistance;
+			}, this);
+			this.sittingTicks.set(isSpiderNearby ? 0 : (this.sittingTicks.get() - 1));
 			if (this.sittingTicks.get() <= 0) {
 				this.angle.set(2 * Math.PI * Math.random());
 			}
