@@ -7,21 +7,33 @@ SR.Unit = function(config) {
 	this.type = config.type; // SR.UnitType
 	this.ijTarget = new JW.Property(); // SR.Vector
 	this.path = []; // Array<number>
-	this.selected = new JW.Property(false); // Boolean
-	this.animationTick = new JW.Property(0); // Number
+	this.selected = new JW.Property(false); // boolean
+	this.animationTick = new JW.Property(0); // number
 
 	// For spider
-	this.energy = new JW.Property(1); // Number
+	this.energy = new JW.Property(1); // number
 	this.active = new JW.Property(false); // Boolean
 
 	// For habitant
-	this.actionTick = 0; // Number
+	this.actionTick = 0; // number
 	this.actingObstacle = null; // SR.Obstacle
 	this.targetObstacle = null; // SR.Obstacle
+	this.attackType = 0; // number, 0 - slipper, 1 - broom, 2 - dichlorvos
+	this.attackTick = 0; // number - decreasing
+	this.attackIj = null; // SR.Vector
 };
 
 JW.extend(SR.Unit, JW.Class, {
 	move: function(level) {
+		if (this.attackIj) {
+			if (this.attackTick <= 0) {
+				this.attackIj = null;
+			} else {
+				--this.attackTick;
+				return;
+			}
+		}
+
 		var movement = this.type.speed;
 		if (this.path.length || this.movement.get() !== 0) {
 			this.animationTick.set(this.animationTick.get() + movement);

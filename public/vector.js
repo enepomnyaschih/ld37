@@ -55,6 +55,10 @@ SR.Vector = {
 		return [Math.max(a[0], b[0]), Math.max(a[1], b[1])];
 	},
 
+	norm: function(a) {
+		return SR.Vector.mult(a, 1 / SR.Vector.length(a));
+	},
+
 	norm8: function(a) {
 		return [JW.sgn(a[0]), JW.sgn(a[1])];
 	},

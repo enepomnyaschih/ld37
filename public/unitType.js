@@ -3,6 +3,7 @@ SR.UnitType = function(config) {
 	this.id = config.id; // String
 	this.speed = config.speed; // number
 	this.size = config.size || 0; // number - radius (0 means 1x1, 1 means 3x3)
+	this.isMinion = config.isMinion || false; // boolean
 	this.viewCreator = config.viewCreator || this.viewCreator; // (unit: SR.Unit) => SR.UnitView
 	this.mover = config.mover || this.mover; // (unit: SR.Unit, level: SR.Level) => void
 };
@@ -21,6 +22,7 @@ JW.makeRegistry(SR.UnitType);
 SR.UnitType.registerItem(new SR.UnitType({
 	id: "spider",
 	speed: 0.2,
+	isMinion: true,
 	viewCreator: function(unit) {
 		return new SR.SpiderUnitView(unit);
 	},
@@ -59,6 +61,22 @@ SR.UnitType.registerItem(new SR.UnitType({
 		return new SR.HabitantUnitView(unit);
 	},
 	mover: function(unit, level) {
+		// Looking for victim
+		var victimUnit = level.units.search(function(victimUnit) {
+			return victimUnit.type.isMinion &&
+				SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimUnit.ij.get())) <= SR.attackDistance &&
+				!level.isWallBetween(unit.ij.get(), victimUnit.ij.get());
+		}, this);
+		if (victimUnit) {
+			unit.attackIj = victimUnit.ij.get();
+			unit.attackTick = 25;
+			unit.attackType = 0;
+			if (Math.random() < .5) {
+				level.units.removeItem(victimUnit);
+			}
+		}
+
+		// Patrolling
 		if (unit.actingObstacle) {
 			if (unit.actionTick > unit.actingObstacle.type.actionTickCount) {
 				unit.targetObstacle = null;

@@ -125,6 +125,21 @@ JW.extend(SR.Level, JW.Class, {
 		}, this);
 	},
 
+	isWallBetween: function(a, b) {
+		var diff = SR.Vector.diff(b, a);
+		var length = SR.Vector.length(diff);
+		var norm = SR.Vector.mult(diff, 1 / length);
+		length = Math.round(length);
+		for (var i = 1; i < length; ++i) {
+			a = SR.Vector.add(a, norm);
+			var ij = SR.Vector.round(a);
+			if (this.matrix.getCell(ij) !== 0) {
+				return true;
+			}
+		}
+		return false;
+	},
+
 	_initMainPathingMatrix: function() {
 		var matrix = new SR.Matrix(this.matrix.size);
 		for (var i = 0; i < matrix.size; ++i) {

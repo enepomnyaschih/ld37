@@ -31,6 +31,11 @@ JW.extend(SR.Application, JW.UI.Component, {
 			ij: [1, 9],
 			direction: 3
 		}));
+		/*level.obstacles.add(new SR.Obstacle({
+			type: SR.ObstacleType.getItem("bed"),
+			ij: [15, 1],
+			direction: 0
+		}));*/
 		level.obstacles.add(new SR.Obstacle({
 			type: SR.ObstacleType.getItem("bed"),
 			ij: [9, 38],
@@ -48,7 +53,7 @@ JW.extend(SR.Application, JW.UI.Component, {
 			type: SR.UnitType.getItem("spider")
 		}));
 		level.units.add(new SR.Unit({
-			ij: [20, 20],
+			ij: [20, 25],
 			direction: 0,
 			controllable: false,
 			type: SR.UnitType.getItem("habitant")
