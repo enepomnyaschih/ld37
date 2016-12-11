@@ -31,6 +31,16 @@ JW.extend(SR.Application, JW.UI.Component, {
 			ij: [1, 10],
 			direction: 3
 		}));
+		level.obstacles.add(new SR.Obstacle({
+			type: SR.ObstacleType.getItem("bed"),
+			ij: [10, 38],
+			direction: 2
+		}));
+		level.obstacles.add(new SR.Obstacle({
+			type: SR.ObstacleType.getItem("bed"),
+			ij: [38, 29],
+			direction: 1
+		}));
 		level.units.add(new SR.Unit({
 			ij: [35, 5],
 			direction: 1,

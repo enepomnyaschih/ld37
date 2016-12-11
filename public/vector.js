@@ -62,5 +62,13 @@ SR.Vector = {
 	parse: function(s) {
 		s = s.split(",");
 		return [+s[0], +s[1]];
+	},
+
+	rotate: function(a, dir) {
+		var d = SR.dir4[JW.mod(dir, 4)];
+		return [
+			 d[1] * a[0] + d[0] * a[1],
+			-d[0] * a[0] + d[1] * a[1]
+		];
 	}
 };

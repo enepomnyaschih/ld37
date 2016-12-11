@@ -162,16 +162,9 @@ JW.extend(SR.Level, JW.Class, {
 		}
 		var isObstacle = this.obstacles.some(function(obstacle) {
 			var d = SR.dir4[obstacle.direction];
-			var s = SR.Vector.diff(obstacle.type.size, [1, 1]);
-			var size = [
-				 d[1] * s[0] + d[0] * s[1],
-				-d[0] * s[0] + d[1] * s[1]
-			];
-			var ij1 = obstacle.ij;
-			var ij2 = SR.Vector.add(ij1, size);
-			var min = SR.Vector.min(ij1, ij2);
-			var max = SR.Vector.max(ij1, ij2);
-			return SR.Vector.isBetween(ij, min, max);
+			var diffAbsolute = SR.Vector.diff(ij, obstacle.ij);
+			var diffRelative = SR.Vector.rotate(diffAbsolute, -obstacle.direction);
+			return obstacle.type.hitChecker(diffRelative);
 		}, this);
 		if (isObstacle) {
 			return false;
