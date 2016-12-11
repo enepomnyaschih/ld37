@@ -1,5 +1,6 @@
 var SR = {
-	attackDistance: 6,
+	attackDistance: 7,
+	attackDistanceWeb: 6,
 	cellSize: 16,
 	flyKillProbability: .3,
 	maxUnitSize: 3,

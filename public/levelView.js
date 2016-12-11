@@ -68,6 +68,22 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		}))
 	},
 
+	renderAchievement: function(el) {
+		var text = this.own(this.level.achievement.$$mapValue(function(achievement) {
+			switch (achievement) {
+				case 0: return "Click or surround spiders to select them";
+				case 1: return "Right-click to move spiders to a location";
+				case 2: return "Press space bar to activate web building mode";
+				case 10: return "You can build web only in the corners between walls and interior objects";
+				case 11: return "Hungry spiders can not build, and they may die hungry death if they stay outside the web";
+				case 12: return "Catch and eat flies to feed the spiders";
+				case 13: return "Avoid engaging a guy to keep your minions alive";
+				default: return "Cover 50% of all territory with web to achieve the victory";
+			}
+		}, this));
+		this.own(el.jwtext(text));
+	},
+
 	renderSelection: function(el) {
 		this.own(new JW.Updater([this.selectionPoint1, this.selectionPoint2], function(p1, p2) {
 			if (!p1 || !p2) {
@@ -93,9 +109,16 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		}
 		if (e.which === 3) {
 			var ij = SR.Vector.floor(SR.xyToIj(point));
-			this.level.getSelectedUnits().each(function(unit) {
+			var units = this.level.getSelectedUnits();
+			if (units.isEmpty()) {
+				return;
+			}
+			units.each(function(unit) {
 				unit.send(this.level, ij);
 			}, this);
+			if (this.level.achievement.get() === 1) {
+				this.level.achievement.set(2);
+			}
 		}
 	},
 
@@ -117,7 +140,11 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		var ijMin = SR.Vector.floor(SR.xyToIj(min));
 		var ijMax = SR.Vector.floor(SR.xyToIj(max));
 		this.level.units.each(function(unit) {
-			unit.selected.set(unit.controllable && SR.Vector.isBetween(unit.ij.get(), ijMin, ijMax));
+			var selected = unit.controllable && SR.Vector.isBetween(unit.ij.get(), ijMin, ijMax);
+			unit.selected.set(selected);
+			if (selected && this.level.achievement.get() === 0) {
+				this.level.achievement.set(1);
+			}
 		}, this);
 	},
 
@@ -125,12 +152,21 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		if (e.which === 32) {
 			e.preventDefault();
 			var selectedUnits = this.level.getSelectedUnits();
+			if (selectedUnits.isEmpty()) {
+				return;
+			}
 			var isInactiveUnit = selectedUnits.some(function(unit) {
 				return !unit.active.get();
 			}, this);
 			selectedUnits.each(function(unit) {
 				unit.active.set(isInactiveUnit);
 			}, this);
+			if (isInactiveUnit && this.level.achievement.get() === 2) {
+				this.level.achievement.set(10);
+				this.own(new JW.Interval(function() {
+					this.level.achievement.set(this.level.achievement.get() + 1);
+				}, this, 10000));
+			}
 		}
 	},
 

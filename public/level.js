@@ -15,6 +15,7 @@ SR.Level = function(size) {
 	this.flyLimit = 6;
 	this.flySpawnInterval = 150;
 	this.windowCells = [];
+	this.achievement = new JW.Property(0);
 };
 
 JW.extend(SR.Level, JW.Class, {

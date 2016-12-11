@@ -134,7 +134,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		}
 
 		var victimWeb = level.webCells.search(function(victimWeb) {
-			return SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimWeb)) <= SR.attackDistance &&
+			return SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimWeb)) <= SR.attackDistanceWeb &&
 				!level.isWallBetween(unit.ij.get(), victimWeb);
 		}, this);
 		if (victimWeb) {
