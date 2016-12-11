@@ -33,6 +33,10 @@ var SR = {
 		return Math.floor(Math.random() * n);
 	},
 
+	randomBetween: function(min, max) {
+		return SR.random(max - min + 1) + min;
+	},
+
 	getIjs4: function(ij) {
 		var dij = [];
 		for (var d = 0; d < 4; ++d) {

@@ -4,6 +4,7 @@ SR.Fly = function(config) {
 	this.angle = new JW.Property(config.angle); // number - angle in radians
 	this.angleAddend = 0; // number - amount of radians to add
 	this.healthTicks = 0; // number - amount of ticks remaining to be caught
+	this.sittingTicks = new JW.Property(0); // number
 	this._replenishHealth();
 };
 
@@ -12,8 +13,18 @@ JW.extend(SR.Fly, JW.Class, {
 	minHealth: 2,
 	maxHealth: 6,
 	speed: 0.9,
+	sitProbability: 0.05,
+	sitMaxTime: 175,
+	sitMinTime: 50,
 
 	move: function(level) {
+		if (this.sittingTicks.get()) {
+			this.sittingTicks.set(this.sittingTicks.get() - 1);
+			if (this.sittingTicks.get() <= 0) {
+				this.angle.set(2 * Math.PI * Math.random());
+			}
+			return;
+		}
 		if (this.angleAddend === 0) {
 			this.angleAddend = Math.PI * (Math.random() - .5);
 		} else if (this.angleAddend > 0) {
@@ -36,6 +47,10 @@ JW.extend(SR.Fly, JW.Class, {
 				break;
 			}
 		}
+		if (level.isAboveObstacle(SR.Vector.floor(this.ij.get())) && Math.random() < this.sitProbability) {
+			this.sittingTicks.set(SR.randomBetween(this.sitMinTime, this.sitMaxTime));
+			return;
+		}
 		if (level.isWebCell(SR.Vector.floor(this.ij.get()))) {
 			--this.healthTicks;
 		} else if (wasInWeb || this.healthTicks <= 0) {
@@ -44,6 +59,6 @@ JW.extend(SR.Fly, JW.Class, {
 	},
 
 	_replenishHealth: function() {
-		this.healthTicks = SR.random(this.maxHealth - this.minHealth + 1) + this.minHealth;
+		this.healthTicks = SR.randomBetween(this.minHealth, this.maxHealth);
 	}
 });
