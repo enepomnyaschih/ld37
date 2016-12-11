@@ -11,7 +11,7 @@ JW.extend(SR.Application, JW.UI.Component, {
 	},
 
 	startLevel: function() {
-		var level = new SR.Level(40);
+		var level = new SR.Level([40, 40]);
 		level.matrix.fill(0);
 		var ij = [39, 0];
 		for (var d = 0; d < 4; ++d) {
@@ -37,14 +37,14 @@ JW.extend(SR.Application, JW.UI.Component, {
 			direction: 0
 		}));*/
 		level.obstacles.add(new SR.Obstacle({
-			type: SR.ObstacleType.getItem("bed"),
-			ij: [9, 38],
-			direction: 2
+			type: SR.ObstacleType.getItem("table"),
+			ij: [1, 30],
+			direction: 0
 		}));
 		level.obstacles.add(new SR.Obstacle({
-			type: SR.ObstacleType.getItem("bed"),
-			ij: [38, 30],
-			direction: 1
+			type: SR.ObstacleType.getItem("cabinet"),
+			ij: [28, 38],
+			direction: 3
 		}));
 		for (var i = 0; i < 3; ++i) {
 			level.units.add(new SR.Unit({

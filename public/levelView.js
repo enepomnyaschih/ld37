@@ -17,9 +17,9 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 
 	renderMatrix: function(el) {
 		var level = this.level;
-		for (var i = 0; i < level.matrix.size; ++i) {
+		for (var i = 0; i < level.matrix.size[0]; ++i) {
 			var rowEl = jQuery('<div class="sr-level-row"></div>');
-			for (var j = 0; j < level.matrix.size; ++j) {
+			for (var j = 0; j < level.matrix.size[1]; ++j) {
 				var ij = [i, j];
 				var cellEl = jQuery('<div class="sr-level-cell"></div>');
 				this.cells.setCell(ij, cellEl);

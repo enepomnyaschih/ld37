@@ -4,7 +4,7 @@ SR.ObstacleType = function(config) {
 	this.size = config.size; // SR.Vector
 	this.ijAction = config.ijAction; // SR.Vector, omit to make non-interactable
 	this.actionTickCount = config.actionTickCount || 0; // number
-	this.hitChecker = config.hitChecker; // (ij: SR.Vector) => boolean
+	this.hitChecker = config.hitChecker || this.hitChecker; // (ij: SR.Vector) => boolean
 };
 
 JW.extend(SR.ObstacleType, JW.Class, {
@@ -31,20 +31,14 @@ SR.ObstacleType.registerItem(new SR.ObstacleType({
 
 SR.ObstacleType.registerItem(new SR.ObstacleType({
 	id: "table",
-	size: [9, 9],
+	size: [5, 9],
 	ijAction: [8, 4],
-	actionTickCount: 150,
-	hitChecker: function(ij) {
-		return this.isInRectangle(ij) && ij[0] < 5;
-	}
+	actionTickCount: 150
 }));
 
 SR.ObstacleType.registerItem(new SR.ObstacleType({
 	id: "cabinet",
-	size: [11, 11],
+	size: [7, 11],
 	ijAction: [10, 5],
-	actionTickCount: 150,
-	hitChecker: function(ij) {
-		return this.isInRectangle(ij) && ij[0] < 7;
-	}
+	actionTickCount: 150
 }));
