@@ -67,7 +67,9 @@ JW.extend(SR.Application, JW.UI.Component, {
 		}
 		level.initPathingMatrices();
 		level.spawnFly();
-		level.spawnSpider();
+		level.spawnSpider(1);
+		level.spawnSpider(1);
+		level.spawnSpider(1);
 		this.level.set(level);
 		return this;
 	}

@@ -102,7 +102,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		// Looking for victim
 		var victimUnit = level.units.search(function(victimUnit) {
 			return victimUnit.type.isMinion &&
-				SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimUnit.ij.get())) <= SR.attackDistance &&
+				SR.Vector.length(SR.Vector.diff(unit.ij.get(), victimUnit.ij.get())) <= SR.attackDistance &&
 				!level.isWallBetween(unit.ij.get(), victimUnit.ij.get());
 		}, this);
 		if (victimUnit) {
@@ -118,7 +118,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		var victimFly = level.flies.search(function(victimFly) {
 			var victimIj = SR.Vector.floor(victimFly.ij.get());
 			return victimFly.sittingTicks.get() > 0 &&
-				SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimIj)) <= SR.attackDistance &&
+				SR.Vector.length(SR.Vector.diff(unit.ij.get(), victimIj)) <= SR.attackDistance &&
 				!level.isWallBetween(unit.ij.get(), victimIj);
 		}, this);
 		if (victimFly) {
@@ -134,8 +134,9 @@ SR.UnitType.registerItem(new SR.UnitType({
 		}
 
 		var victimWeb = level.webCells.search(function(victimWeb) {
-			return SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimWeb)) <= SR.attackDistanceWeb &&
-				!level.isWallBetween(unit.ij.get(), victimWeb);
+			return SR.Vector.length(SR.Vector.diff(unit.ij.get(), victimWeb)) <= SR.attackDistanceWeb &&
+				!level.isWallBetween(unit.ij.get(), victimWeb) &&
+				Math.random() < SR.webAttackProbability;
 		}, this);
 		if (victimWeb) {
 			unit.attackIj.set(victimWeb);

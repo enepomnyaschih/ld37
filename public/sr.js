@@ -1,16 +1,17 @@
 var SR = {
-	attackDistance: 7,
-	attackDistanceWeb: 6,
+	attackDistance: 6,
+	attackDistanceWeb: 5,
 	cellSize: 16,
 	flyKillProbability: .3,
 	maxUnitSize: 3,
 	spiderEnergyFillingPerFly: .5,
 	spiderEnergyPerWeb: 0.1,
 	spiderEnergyRequirement: .25,
-	spiderEnergyHungryLeak: .003,
+	spiderEnergyHungryLeak: .0025,
 	spiderKillProbability: .5,
 	tickPerSecond: 25,
-	winConditionPercent: 25,
+	webAttackProbability: .03,
+	winConditionPercent: 20,
 
 	dir4: [
 		[0, 1],

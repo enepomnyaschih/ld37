@@ -12,7 +12,7 @@ SR.Unit = function(config) {
 	this.alive = true; // boolean
 
 	// For spider
-	this.energy = new JW.Property(1); // number
+	this.energy = new JW.Property(JW.defn(config.energy, 1)); // number
 	this.active = new JW.Property(false); // Boolean
 
 	// For habitant

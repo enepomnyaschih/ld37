@@ -13,7 +13,7 @@ SR.Level = function(size) {
 	this.pathingMatricesWithObstacles    = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
 	this.pathingMatricesWithoutObstacles = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
 	this.flyLimit = 6;
-	this.flySpawnInterval = 150;
+	this.flySpawnInterval = 120;
 	this.spiderLimit = 3;
 	this.spiderSpawnInterval = 150;
 	this.windowCells = [];
@@ -57,7 +57,7 @@ JW.extend(SR.Level, JW.Class, {
 			return unit.type.isMinion;
 		}, this);
 		if (spiders.getLength() < this.spiderLimit && (this.tick.get() % this.spiderSpawnInterval === 0)) {
-			this.spawnSpider();
+			this.spawnSpider(SR.spiderEnergyRequirement);
 		}
 
 		// Being hungry
@@ -214,13 +214,14 @@ JW.extend(SR.Level, JW.Class, {
 		}));
 	},
 
-	spawnSpider: function() {
+	spawnSpider: function(energy) {
 		var ij = this.webCells.get(SR.random(this.webCells.getLength()));
 		this.units.add(new SR.Unit({
 			ij: ij,
 			direction: SR.random(4),
 			controllable: true,
-			type: SR.UnitType.getItem("spider")
+			type: SR.UnitType.getItem("spider"),
+			energy: energy
 		}));
 	},
 

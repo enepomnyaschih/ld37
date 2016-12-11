@@ -88,6 +88,13 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 		this.own(el.jwshow(this.level.victory));
 	},
 
+	renderRestart: function(el) {
+		el.jwon("click", function() {
+			application.level.set(null);
+			application.startLevel();
+		}, this);
+	},
+
 	renderSelection: function(el) {
 		this.own(new JW.Updater([this.selectionPoint1, this.selectionPoint2], function(p1, p2) {
 			if (!p1 || !p2) {
