@@ -20,16 +20,24 @@ JW.extend(SR.Application, JW.UI.Component, {
 				ij = SR.Vector.add(ij, SR.dir4[d]);
 			}
 		}
-		for (var i = 0; i < 15; ++i) {
-			level.matrix.setCell([24, i + 1], 1);
-			if (i < 3 || i > 10) {
-				level.matrix.setCell([38 - i, 15], 1);
+		for (var i = 0; i < 17; ++i) {
+			level.matrix.setCell([22, i + 1], 2);
+			level.matrix.setCell([38 - i, 17], 2);
+		}
+		for (var i = 23; i < 40; ++i) {
+			for (var j = 0; j < 17; ++j) {
+				level.matrix.setCell([i, j], 1);
 			}
 		}
 		for (var i = 0; i < 7; ++i) {
 			level.matrix.setCell([0, 15 + i], 3);
 			level.matrix.setCell([12 + i, 39], 3);
 		}
+		for (var i = 1; i < 4; ++i) {
+			level.webCells.add([20, i]);
+			level.webCells.add([21, i]);
+		}
+		level.webCells.add([20, 4]);
 		level.obstacles.add(new SR.Obstacle({
 			type: SR.ObstacleType.getItem("bed"),
 			ij: [1, 9],
@@ -50,14 +58,24 @@ JW.extend(SR.Application, JW.UI.Component, {
 			ij: [28, 38],
 			direction: 3
 		}));
-		for (var i = 0; i < 3; ++i) {
-			level.units.add(new SR.Unit({
-				ij: [35 + i, 5],
-				direction: i,
-				controllable: true,
-				type: SR.UnitType.getItem("spider")
-			}));
-		}
+		level.units.add(new SR.Unit({
+			ij: [20, 1],
+			direction: 0,
+			controllable: true,
+			type: SR.UnitType.getItem("spider")
+		}));
+		level.units.add(new SR.Unit({
+			ij: [21, 1],
+			direction: 2,
+			controllable: true,
+			type: SR.UnitType.getItem("spider")
+		}));
+		level.units.add(new SR.Unit({
+			ij: [20, 2],
+			direction: 1,
+			controllable: true,
+			type: SR.UnitType.getItem("spider")
+		}));
 		level.units.add(new SR.Unit({
 			ij: [20, 25],
 			direction: 0,
