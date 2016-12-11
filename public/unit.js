@@ -9,8 +9,15 @@ SR.Unit = function(config) {
 	this.path = []; // Array<number>
 	this.selected = new JW.Property(false); // Boolean
 	this.animationTick = new JW.Property(0); // Number
+
+	// For spider
 	this.energy = new JW.Property(1); // Number
 	this.active = new JW.Property(false); // Boolean
+
+	// For habitant
+	this.actionTick = 0; // Number
+	this.actingObstacle = null; // SR.Obstacle
+	this.targetObstacle = null; // SR.Obstacle
 };
 
 JW.extend(SR.Unit, JW.Class, {

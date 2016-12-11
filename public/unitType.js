@@ -53,9 +53,42 @@ SR.UnitType.registerItem(new SR.UnitType({
 
 SR.UnitType.registerItem(new SR.UnitType({
 	id: "habitant",
-	speed: 0.1,
+	speed: 0.2,
 	size: 3,
 	viewCreator: function(unit) {
 		return new SR.HabitantUnitView(unit);
+	},
+	mover: function(unit, level) {
+		if (unit.actingObstacle) {
+			if (unit.actionTick > unit.actingObstacle.type.actionTickCount) {
+				unit.targetObstacle = null;
+				unit.actingObstacle = null;
+				unit.actionTick = 0;
+			} else {
+				++unit.actionTick;
+				return;
+			}
+		}
+		if (!unit.targetObstacle) {
+			var availableObstacles = level.obstacles.filter(function(obstacle) {
+				if (!obstacle.type.ijAction) {
+					return false;
+				}
+				return !level.units.some(function(unit) {
+					return (unit.type.id === "habitant") && (unit.targetObstacle === obstacle);
+				}, unit);
+			}, unit);
+			if (!availableObstacles.length) {
+				return;
+			}
+			unit.targetObstacle = availableObstacles[SR.random(availableObstacles.length)];
+		}
+		var ijActionRotated = SR.Vector.rotate(unit.targetObstacle.type.ijAction, unit.targetObstacle.direction);
+		var ijActionAbsolute = SR.Vector.add(unit.targetObstacle.ij, ijActionRotated);
+		if (SR.Vector.equal(unit.ij.get(), ijActionAbsolute) && unit.movement.get() === 0) {
+			unit.actingObstacle = unit.targetObstacle;
+		} else if (!unit.path.length && unit.movement.get() === 0) {
+			unit.send(level, ijActionAbsolute);
+		}
 	}
 }));
