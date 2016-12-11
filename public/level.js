@@ -32,9 +32,8 @@ JW.extend(SR.Level, JW.Class, {
 			return false;
 		}
 		if (considerUnits) {
-			// TODO: rework using unit size
 			var isUnit = this.units.some(function(unit) {
-				return SR.Vector.equal(unit.ij.get(), ij);
+				return SR.Vector.length8(SR.Vector.diff(unit.ij.get(), ij)) <= unitSize + unit.type.size;
 			}, this);
 			if (isUnit) {
 				return false;
