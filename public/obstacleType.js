@@ -9,10 +9,10 @@ SR.ObstacleType = function(config) {
 
 JW.extend(SR.ObstacleType, JW.Class, {
 	hitChecker: function(ij) {
-		return this._isInRectangle(ij);
+		return this.isInRectangle(ij);
 	},
 
-	_isInRectangle: function(ij) {
+	isInRectangle: function(ij) {
 		return SR.Vector.isBetween(ij, [0, 0], SR.Vector.diff(this.size, [1, 1]));
 	}
 });
@@ -25,6 +25,6 @@ SR.ObstacleType.registerItem(new SR.ObstacleType({
 	ijAction: [4, 9],
 	actionTickCount: 150,
 	hitChecker: function(ij) {
-		return this._isInRectangle(ij) && (ij[1] < 6 || ij[1] >= 13);
+		return this.isInRectangle(ij) && (ij[1] < 6 || ij[1] >= 13);
 	}
 }));

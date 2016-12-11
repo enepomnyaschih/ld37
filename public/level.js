@@ -140,6 +140,12 @@ JW.extend(SR.Level, JW.Class, {
 		return false;
 	},
 
+	isAboveObstacle: function(ij) {
+		return this.obstacles.some(function(obstacle) {
+			return obstacle.type.isInRectangle(obstacle.getRelativeIj(ij));
+		}, this);
+	},
+
 	_initMainPathingMatrix: function() {
 		var matrix = new SR.Matrix(this.matrix.size);
 		for (var i = 0; i < matrix.size; ++i) {
@@ -175,10 +181,7 @@ JW.extend(SR.Level, JW.Class, {
 			return false;
 		}
 		var isObstacle = this.obstacles.some(function(obstacle) {
-			var d = SR.dir4[obstacle.direction];
-			var diffAbsolute = SR.Vector.diff(ij, obstacle.ij);
-			var diffRelative = SR.Vector.rotate(diffAbsolute, -obstacle.direction);
-			return obstacle.type.hitChecker(diffRelative);
+			return obstacle.type.hitChecker(obstacle.getRelativeIj(ij));
 		}, this);
 		if (isObstacle) {
 			return false;

@@ -6,6 +6,10 @@ SR.Obstacle = function(config) {
 };
 
 JW.extend(SR.Obstacle, JW.Class, {
-
+	getRelativeIj: function(ij) {
+		var d = SR.dir4[this.direction];
+		var diffAbsolute = SR.Vector.diff(ij, this.ij);
+		return SR.Vector.rotate(diffAbsolute, -this.direction);
+	}
 });
 

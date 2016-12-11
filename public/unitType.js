@@ -34,6 +34,9 @@ SR.UnitType.registerItem(new SR.UnitType({
 		if (!unit.active.get()) {
 			return;
 		}
+		if (level.isAboveObstacle(unit.ij.get())) {
+			return;
+		}
 		if (unit.energy.get() < SR.spiderEnergyPerWeb) {
 			unit.active.set(false);
 			return;
@@ -41,7 +44,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		var applicableNeighbourCount = 0;
 		for (var d = 0; d < 4; ++d) {
 			var dij = SR.Vector.add(unit.ij.get(), SR.dir4[d]);
-			if (level.isWebCell(dij) || !level.isPassable(dij)) {
+			if (level.isWebCell(dij) || !level.isPassable(dij) || level.isAboveObstacle(dij)) {
 				++applicableNeighbourCount;
 			}
 		}
