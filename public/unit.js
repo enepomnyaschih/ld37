@@ -18,16 +18,17 @@ SR.Unit = function(config) {
 	this.actionTick = 0; // number
 	this.actingObstacle = null; // SR.Obstacle
 	this.targetObstacle = null; // SR.Obstacle
-	this.attackType = 0; // number, 0 - slipper, 1 - broom, 2 - dichlorvos
+	this.attackType = new JW.Property(); // number, 0 - slipper, 1 - broom, 2 - dichlorvos
 	this.attackTick = 0; // number - decreasing
-	this.attackIj = null; // SR.Vector
+	this.attackIj = new JW.Property(); // SR.Vector
 };
 
 JW.extend(SR.Unit, JW.Class, {
 	move: function(level) {
-		if (this.attackIj) {
+		if (this.attackIj.get()) {
 			if (this.attackTick <= 0) {
-				this.attackIj = null;
+				this.attackIj.set(null);
+				this.attackType.set(null);
 			} else {
 				--this.attackTick;
 				return;

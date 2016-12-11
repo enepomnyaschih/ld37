@@ -1,9 +1,22 @@
 SR.UnitView = function(unit) {
 	SR.UnitView._super.call(this);
 	this.unit = unit; // SR.Unit
+	this.transform = null; // JW.Property<String>
 };
 
 JW.extend(SR.UnitView, JW.UI.Component, {
+	beforeRender: function() {
+		this._super();
+		this.transform = this.own(new JW.Functor([this.unit.direction, this.unit.attackIj], function(direction, attackIj) {
+			if (attackIj) {
+				var diff = SR.Vector.diff(attackIj, this.unit.ij.get());
+				var angle = -Math.atan2(diff[1], diff[0]);
+				return "rotate(" + (180 * angle / Math.PI + 90) + "deg)";
+			}
+			return "rotate(" + (-90 * direction) + "deg)";
+		}, this)).target;
+	},
+
 	renderRoot: function(el) {
 		var xy = this.own(new JW.Functor([this.unit.ij, this.unit.direction, this.unit.movement],
 			function(ij, direction, movement) {
@@ -25,11 +38,7 @@ JW.extend(SR.UnitView, JW.UI.Component, {
 		el.css("left",  -half + "px");
 		el.css("top",   -half + "px");
 
-		var transform = this.own(this.unit.direction.$$mapValue(function(direction) {
-			return "rotate(" + (-90 * direction) + "deg)"
-		}, this));
-		this.own(el.jwcss("transform", transform));
-
+		this.own(el.jwcss("transform", this.transform));
 		this.own(el.jwclass("selected", this.unit.selected));
 		this.own(el.jwclass("active", this.unit.active));
 	}

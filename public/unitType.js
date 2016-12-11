@@ -21,7 +21,7 @@ JW.makeRegistry(SR.UnitType);
 
 SR.UnitType.registerItem(new SR.UnitType({
 	id: "spider",
-	speed: 0.2,
+	speed: 0.4,
 	isMinion: true,
 	viewCreator: function(unit) {
 		return new SR.SpiderUnitView(unit);
@@ -61,22 +61,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		return new SR.HabitantUnitView(unit);
 	},
 	mover: function(unit, level) {
-		// Looking for victim
-		var victimUnit = level.units.search(function(victimUnit) {
-			return victimUnit.type.isMinion &&
-				SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimUnit.ij.get())) <= SR.attackDistance &&
-				!level.isWallBetween(unit.ij.get(), victimUnit.ij.get());
-		}, this);
-		if (victimUnit) {
-			unit.attackIj = victimUnit.ij.get();
-			unit.attackTick = 25;
-			unit.attackType = 0;
-			if (Math.random() < .5) {
-				level.units.removeItem(victimUnit);
-			}
-		}
-
-		// Patrolling
+		// Doing stuff
 		if (unit.actingObstacle) {
 			if (unit.actionTick > unit.actingObstacle.type.actionTickCount) {
 				unit.targetObstacle = null;
@@ -87,6 +72,23 @@ SR.UnitType.registerItem(new SR.UnitType({
 				return;
 			}
 		}
+
+		// Looking for victim
+		var victimUnit = level.units.search(function(victimUnit) {
+			return victimUnit.type.isMinion &&
+				SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimUnit.ij.get())) <= SR.attackDistance &&
+				!level.isWallBetween(unit.ij.get(), victimUnit.ij.get());
+		}, this);
+		if (victimUnit) {
+			unit.attackIj.set(victimUnit.ij.get());
+			unit.attackTick = 25;
+			unit.attackType.set(0);
+			if (Math.random() < .5) {
+				level.units.removeItem(victimUnit);
+			}
+		}
+
+		// Patrolling
 		if (!unit.targetObstacle) {
 			var availableObstacles = level.obstacles.filter(function(obstacle) {
 				if (!obstacle.type.ijAction) {

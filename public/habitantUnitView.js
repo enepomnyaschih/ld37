@@ -30,6 +30,20 @@ JW.extend(SR.HabitantUnitView, SR.UnitView, {
 		this._renderLeg(el, -1);
 	},
 
+	renderWeapon: function(el) {
+		this.own(el.jwattr("sr-weapon", this.unit.attackType));
+		this.own(el.jwcss("transform", this.transform));
+
+		var xy = this.own(new JW.Functor([this.unit.ij, this.unit.attackIj],
+			function(ij, attackIj) {
+				return attackIj ? SR.ijToXy(SR.Vector.diff(attackIj, ij)) : [0, 0];
+			}, this)).target;
+		var x = this.own(SR.getXProperty(xy));
+		var y = this.own(SR.getYProperty(xy));
+		this.own(el.jwcss("left", x));
+		this.own(el.jwcss("top", y));
+	},
+
 	_renderLeg: function(el, sgn) {
 		this.own(new JW.Updater([this.animationPoint], function(animationPoint) {
 			animationPoint *= sgn;
