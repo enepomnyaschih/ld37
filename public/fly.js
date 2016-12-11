@@ -25,7 +25,7 @@ JW.extend(SR.Fly, JW.Class, {
 			}, this);
 			this.sittingTicks.set(isSpiderNearby ? 0 : (this.sittingTicks.get() - 1));
 			if (this.sittingTicks.get() <= 0) {
-				this.angle.set(2 * Math.PI * Math.random());
+				this.jump();
 			}
 			return;
 		}
@@ -60,6 +60,11 @@ JW.extend(SR.Fly, JW.Class, {
 		} else if (wasInWeb || this.healthTicks <= 0) {
 			this._replenishHealth();
 		}
+	},
+
+	jump: function() {
+		this.sittingTicks.set(0);
+		this.angle.set(2 * Math.PI * Math.random());
 	},
 
 	_replenishHealth: function() {

@@ -18,7 +18,7 @@ SR.Unit = function(config) {
 	this.actionTick = 0; // number
 	this.actingObstacle = null; // SR.Obstacle
 	this.targetObstacle = null; // SR.Obstacle
-	this.attackType = new JW.Property(); // number, 0 - slipper, 1 - broom, 2 - dichlorvos
+	this.attackType = new JW.Property(); // number, 0 - slipper, 1 - broom, 2 - magazine
 	this.attackTick = 0; // number - decreasing
 	this.attackIj = new JW.Property(); // SR.Vector
 };

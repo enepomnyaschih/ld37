@@ -1,8 +1,10 @@
 var SR = {
 	attackDistance: 6,
 	cellSize: 16,
+	flyKillProbability: .3,
 	spiderEnergyFillingPerFly: .5,
 	spiderEnergyPerWeb: 0.05,
+	spiderKillProbability: .5,
 	tickPerSecond: 25,
 
 	dir4: [

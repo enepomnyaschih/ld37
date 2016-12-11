@@ -106,8 +106,26 @@ SR.UnitType.registerItem(new SR.UnitType({
 			unit.attackIj.set(victimUnit.ij.get());
 			unit.attackTick = 25;
 			unit.attackType.set(0);
-			if (Math.random() < .5) {
+			if (Math.random() < SR.spiderKillProbability) {
 				level.units.removeItem(victimUnit);
+			}
+			return;
+		}
+
+		var victimFly = level.flies.search(function(victimFly) {
+			var victimIj = SR.Vector.floor(victimFly.ij.get());
+			return victimFly.sittingTicks.get() > 0 &&
+				SR.Vector.length8(SR.Vector.diff(unit.ij.get(), victimIj)) <= SR.attackDistance &&
+				!level.isWallBetween(unit.ij.get(), victimIj);
+		}, this);
+		if (victimFly) {
+			unit.attackIj.set(victimFly.ij.get());
+			unit.attackTick = 25;
+			unit.attackType.set(2);
+			if (Math.random() < SR.flyKillProbability) {
+				level.flies.removeItem(victimFly);
+			} else {
+				victimFly.jump();
 			}
 			return;
 		}
