@@ -30,7 +30,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 	mover: function(unit, level) {
 		// Eating flies
 		var fly = level.getEatableFly(unit.ij.get());
-		if (fly) {
+		if (fly && unit.energy.get() !== 1) {
 			level.flies.removeItem(fly);
 			unit.energy.set(Math.min(1, unit.energy.get() + SR.spiderEnergyFillingPerFly));
 		}
