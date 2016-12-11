@@ -26,6 +26,10 @@ JW.extend(SR.Application, JW.UI.Component, {
 				level.matrix.setCell([38 - i, 15], 1);
 			}
 		}
+		for (var i = 0; i < 7; ++i) {
+			level.matrix.setCell([0, 15 + i], 3);
+			level.matrix.setCell([12 + i, 39], 3);
+		}
 		level.obstacles.add(new SR.Obstacle({
 			type: SR.ObstacleType.getItem("bed"),
 			ij: [1, 9],
@@ -60,7 +64,7 @@ JW.extend(SR.Application, JW.UI.Component, {
 			controllable: false,
 			type: SR.UnitType.getItem("habitant")
 		}));
-		for (var i = 0; i < 10; ++i) {
+		for (var i = 0; i < 1; ++i) {
 			level.flies.add(new SR.Fly({
 				ij: [20, 20],
 				angle: i * Math.PI / 3

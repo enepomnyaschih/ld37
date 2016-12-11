@@ -63,6 +63,9 @@ SR.UnitType.registerItem(new SR.UnitType({
 		var applicableNeighbourCount = 0;
 		for (var d = 0; d < 4; ++d) {
 			var dij = SR.Vector.add(unit.ij.get(), SR.dir4[d]);
+			if (level.matrix.getCell(dij) === 3) {
+				applicableNeighbourCount = -100;
+			}
 			if (level.isWebCell(dij) || !level.isPassable(dij) || level.isAboveObstacle(dij)) {
 				++applicableNeighbourCount;
 			}

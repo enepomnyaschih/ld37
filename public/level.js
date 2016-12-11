@@ -12,6 +12,9 @@ SR.Level = function(size) {
 	}, this));
 	this.pathingMatricesWithObstacles    = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
 	this.pathingMatricesWithoutObstacles = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
+	this.flyLimit = 6;
+	this.flySpawnInterval = 150;
+	this.windowCells = [];
 };
 
 JW.extend(SR.Level, JW.Class, {
@@ -23,12 +26,20 @@ JW.extend(SR.Level, JW.Class, {
 		}
 		this.pathingMatricesWithoutObstacles = [];
 		this.pathingMatricesWithoutObstacles.push(this._initMainPathingMatrix(false));
+		this.matrix.every(function(value, ij) {
+			if (value === 3) {
+				this.windowCells.push(ij);
+			}
+		}, this);
 	},
 
 	onTick: function() {
 		this.tick.set(this.tick.get() + 1);
 		this.units.each(JW.byMethod("move", [this]));
 		this.flies.each(JW.byMethod("move", [this]));
+		if (this.flies.getLength() < this.flyLimit && (this.tick.get() % this.flySpawnInterval === 0)) {
+			this.spawnFly();
+		}
 	},
 
 	isPassable: function(ij, unitSize, considerUnits, considerObstacles) {
@@ -162,6 +173,16 @@ JW.extend(SR.Level, JW.Class, {
 		}, this);
 	},
 
+	spawnFly: function() {
+		var ij = this.windowCells[SR.random(this.windowCells.length)];
+		ij = SR.Vector.max(ij, [1, 1]);
+		ij = SR.Vector.min(ij, SR.Vector.diff(this.matrix.size, [2, 2]));
+		this.flies.add(new SR.Fly({
+			ij: ij,
+			angle: 2 * Math.PI * Math.random()
+		}));
+	},
+
 	_initMainPathingMatrix: function(considerObstacles) {
 		var matrix = new SR.Matrix(this.matrix.size);
 		for (var i = 0; i < matrix.size[0]; ++i) {
@@ -214,4 +235,5 @@ JW.extend(SR.Level, JW.Class, {
 0 - пусто
 1 - стена между комнатами (ее могут грызть мыши)
 2 - стена глухая вокруг дома
+3 - окно
 */
