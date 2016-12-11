@@ -14,6 +14,8 @@ SR.Level = function(size) {
 	this.pathingMatricesWithoutObstacles = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
 	this.flyLimit = 6;
 	this.flySpawnInterval = 150;
+	this.spiderLimit = 3;
+	this.spiderSpawnInterval = 150;
 	this.windowCells = [];
 	this.achievement = new JW.Property(0);
 	this.buildableCellCount = 0;
@@ -51,15 +53,24 @@ JW.extend(SR.Level, JW.Class, {
 			this.spawnFly();
 		}
 
+		var spiders = this.units.$filter(function(unit) {
+			return unit.type.isMinion;
+		}, this);
+		if (spiders.getLength() < this.spiderLimit && (this.tick.get() % this.spiderSpawnInterval === 0)) {
+			this.spawnSpider();
+		}
+
 		// Being hungry
-		this.units.$toArray().each(function(unit) {
-			if (unit.type.isMinion && !this.isWebCell(unit.ij.get())) {
+		spiders.$toArray().each(function(unit) {
+			if (!this.isWebCell(unit.ij.get())) {
 				unit.energy.set(unit.energy.get() - SR.spiderEnergyHungryLeak);
 				if (unit.energy.get() < 0) {
 					this.units.removeItem(unit);
 				}
 			}
 		}, this);
+
+		this.units.performFilter(this.units.filter(JW.byField("alive")));
 	},
 
 	isPassable: function(ij, unitSize, considerUnits, considerObstacles) {
@@ -200,6 +211,16 @@ JW.extend(SR.Level, JW.Class, {
 		this.flies.add(new SR.Fly({
 			ij: ij,
 			angle: 2 * Math.PI * Math.random()
+		}));
+	},
+
+	spawnSpider: function() {
+		var ij = this.webCells.get(SR.random(this.webCells.getLength()));
+		this.units.add(new SR.Unit({
+			ij: ij,
+			direction: SR.random(4),
+			controllable: true,
+			type: SR.UnitType.getItem("spider")
 		}));
 	},
 

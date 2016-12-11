@@ -43,11 +43,6 @@ JW.extend(SR.Application, JW.UI.Component, {
 			ij: [1, 9],
 			direction: 3
 		}));
-		/*level.obstacles.add(new SR.Obstacle({
-			type: SR.ObstacleType.getItem("bed"),
-			ij: [15, 1],
-			direction: 0
-		}));*/
 		level.obstacles.add(new SR.Obstacle({
 			type: SR.ObstacleType.getItem("table"),
 			ij: [1, 30],
@@ -57,24 +52,6 @@ JW.extend(SR.Application, JW.UI.Component, {
 			type: SR.ObstacleType.getItem("cabinet"),
 			ij: [28, 38],
 			direction: 3
-		}));
-		level.units.add(new SR.Unit({
-			ij: [20, 1],
-			direction: 0,
-			controllable: true,
-			type: SR.UnitType.getItem("spider")
-		}));
-		level.units.add(new SR.Unit({
-			ij: [21, 1],
-			direction: 2,
-			controllable: true,
-			type: SR.UnitType.getItem("spider")
-		}));
-		level.units.add(new SR.Unit({
-			ij: [20, 2],
-			direction: 1,
-			controllable: true,
-			type: SR.UnitType.getItem("spider")
 		}));
 		level.units.add(new SR.Unit({
 			ij: [20, 25],
@@ -89,6 +66,8 @@ JW.extend(SR.Application, JW.UI.Component, {
 			}));
 		}
 		level.initPathingMatrices();
+		level.spawnFly();
+		level.spawnSpider();
 		this.level.set(level);
 		return this;
 	}

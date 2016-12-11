@@ -110,7 +110,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 			unit.attackTick = 25;
 			unit.attackType.set(0);
 			if (Math.random() < SR.spiderKillProbability) {
-				level.units.removeItem(victimUnit);
+				victimUnit.alive = false;
 			}
 			return;
 		}

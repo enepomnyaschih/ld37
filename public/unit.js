@@ -9,6 +9,7 @@ SR.Unit = function(config) {
 	this.path = []; // Array<number>
 	this.selected = new JW.Property(false); // boolean
 	this.animationTick = new JW.Property(0); // number
+	this.alive = true; // boolean
 
 	// For spider
 	this.energy = new JW.Property(1); // number
