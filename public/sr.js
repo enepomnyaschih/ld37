@@ -6,6 +6,8 @@ var SR = {
 	maxUnitSize: 3,
 	spiderEnergyFillingPerFly: .5,
 	spiderEnergyPerWeb: 0.1,
+	spiderEnergyRequirement: .25,
+	spiderEnergyHungryLeak: .003,
 	spiderKillProbability: .5,
 	tickPerSecond: 25,
 	winConditionPercent: 25,

@@ -56,7 +56,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 		if (level.isAboveObstacle(unit.ij.get())) {
 			return;
 		}
-		if (unit.energy.get() < SR.spiderEnergyPerWeb) {
+		if (unit.energy.get() < SR.spiderEnergyRequirement) {
 			unit.active.set(false);
 			return;
 		}

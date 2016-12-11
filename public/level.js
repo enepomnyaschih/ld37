@@ -50,6 +50,16 @@ JW.extend(SR.Level, JW.Class, {
 		if (this.flies.getLength() < this.flyLimit && (this.tick.get() % this.flySpawnInterval === 0)) {
 			this.spawnFly();
 		}
+
+		// Being hungry
+		this.units.$toArray().each(function(unit) {
+			if (unit.type.isMinion && !this.isWebCell(unit.ij.get())) {
+				unit.energy.set(unit.energy.get() - SR.spiderEnergyHungryLeak);
+				if (unit.energy.get() < 0) {
+					this.units.removeItem(unit);
+				}
+			}
+		}, this);
 	},
 
 	isPassable: function(ij, unitSize, considerUnits, considerObstacles) {
