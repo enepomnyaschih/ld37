@@ -4,6 +4,7 @@ SR.UnitType = function(config) {
 	this.speed = config.speed; // number
 	this.size = config.size || 0; // number - radius (0 means 1x1, 1 means 3x3)
 	this.isMinion = config.isMinion || false; // boolean
+	this.hitsObstacles = config.hitsObstacles || false; // boolean
 	this.viewCreator = config.viewCreator || this.viewCreator; // (unit: SR.Unit) => SR.UnitView
 	this.mover = config.mover || this.mover; // (unit: SR.Unit, level: SR.Level) => void
 };
@@ -60,6 +61,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 	id: "habitant",
 	speed: 0.2,
 	size: 3,
+	hitsObstacles: true,
 	viewCreator: function(unit) {
 		return new SR.HabitantUnitView(unit);
 	},

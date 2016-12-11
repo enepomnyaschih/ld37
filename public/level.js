@@ -9,16 +9,19 @@ SR.Level = function(size) {
 	this.own(this.paused.$$mapObject(function(paused) {
 		return paused ? null : new JW.Interval(this.onTick, this, 1000 / SR.tickPerSecond);
 	}, this));
-	this.pathingMatrices = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
+	this.pathingMatricesWithObstacles    = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
+	this.pathingMatricesWithoutObstacles = []; // <SR.Matrix<boolean>>, index - unit size, value - pathing matrix
 };
 
 JW.extend(SR.Level, JW.Class, {
 	initPathingMatrices: function() {
-		this.pathingMatrices = [];
-		this.pathingMatrices.push(this._initMainPathingMatrix());
+		this.pathingMatricesWithObstacles = [];
+		this.pathingMatricesWithObstacles.push(this._initMainPathingMatrix(true));
 		for (var i = 0; i < 3; ++i) {
-			this.pathingMatrices.push(this._extendPathingMatrix(this.pathingMatrices[i]));
+			this.pathingMatricesWithObstacles.push(this._extendPathingMatrix(this.pathingMatricesWithObstacles[i]));
 		}
+		this.pathingMatricesWithoutObstacles = [];
+		this.pathingMatricesWithoutObstacles.push(this._initMainPathingMatrix(false));
 	},
 
 	onTick: function() {
@@ -26,9 +29,12 @@ JW.extend(SR.Level, JW.Class, {
 		this.units.each(JW.byMethod("move", [this]));
 	},
 
-	isPassable: function(ij, unitSize, considerUnits) {
+	isPassable: function(ij, unitSize, considerUnits, considerObstacles) {
 		unitSize = unitSize || 0;
-		if (!this.pathingMatrices[unitSize].getCell(ij)) {
+		var pathingMatrix = considerObstacles ?
+			this.pathingMatricesWithObstacles[unitSize] :
+			this.pathingMatricesWithoutObstacles[unitSize];
+		if (!pathingMatrix.getCell(ij)) {
 			return false;
 		}
 		if (considerUnits) {
@@ -42,12 +48,12 @@ JW.extend(SR.Level, JW.Class, {
 		return true;
 	},
 
-	findPath: function(sij, tij, unitSize, considerUnits) {
-		var distanceMatrix = this.getDistanceMatrix(sij, tij, unitSize, considerUnits);
+	findPath: function(sij, tij, unitSize, considerUnits, considerObstacles) {
+		var distanceMatrix = this.getDistanceMatrix(sij, tij, unitSize, considerUnits, considerObstacles);
 		return this.backtracePath(distanceMatrix, tij);
 	},
 
-	getDistanceMatrix: function(sij, tij, unitSize, considerUnits) {
+	getDistanceMatrix: function(sij, tij, unitSize, considerUnits, considerObstacles) {
 		var distances = new SR.Matrix(this.matrix.size);
 		distances.setCell(sij, 0);
 
@@ -76,7 +82,7 @@ JW.extend(SR.Level, JW.Class, {
 					continue;
 				}
 				var cell = this.matrix.getCell(dij);
-				if (!this.isPassable(dij, unitSize, considerUnits)) {
+				if (!this.isPassable(dij, unitSize, considerUnits, considerObstacles)) {
 					continue;
 				}
 				distances.setCell(dij, movement);
@@ -146,12 +152,12 @@ JW.extend(SR.Level, JW.Class, {
 		}, this);
 	},
 
-	_initMainPathingMatrix: function() {
+	_initMainPathingMatrix: function(considerObstacles) {
 		var matrix = new SR.Matrix(this.matrix.size);
 		for (var i = 0; i < matrix.size; ++i) {
 			for (var j = 0; j < matrix.size; ++j) {
 				var ij = [i, j];
-				matrix.setCell(ij, this._isPassable(ij));
+				matrix.setCell(ij, this._isPassable(ij, considerObstacles));
 			}
 		}
 		return matrix;
@@ -176,9 +182,12 @@ JW.extend(SR.Level, JW.Class, {
 		return matrix;
 	},
 
-	_isPassable: function(ij) {
+	_isPassable: function(ij, considerObstacles) {
 		if (this.matrix.getCell(ij) !== 0) {
 			return false;
+		}
+		if (!considerObstacles) {
+			return true;
 		}
 		var isObstacle = this.obstacles.some(function(obstacle) {
 			return obstacle.type.hitChecker(obstacle.getRelativeIj(ij));

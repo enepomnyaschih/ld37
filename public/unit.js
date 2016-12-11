@@ -62,6 +62,6 @@ JW.extend(SR.Unit, JW.Class, {
 	send: function(level, tij, considerUnits) {
 		// ij is not null
 		this.ijTarget.set(tij);
-		this.path = level.findPath(this.ij.get(), tij, this.type.size, considerUnits) || [];
+		this.path = level.findPath(this.ij.get(), tij, this.type.size, considerUnits, this.type.hitsObstacles) || [];
 	}
 });
