@@ -16,6 +16,8 @@ SR.Level = function(size) {
 	this.flySpawnInterval = 150;
 	this.windowCells = [];
 	this.achievement = new JW.Property(0);
+	this.buildableCellCount = 0;
+	this.victory = new JW.Property(false);
 };
 
 JW.extend(SR.Level, JW.Class, {
@@ -31,10 +33,17 @@ JW.extend(SR.Level, JW.Class, {
 			if (value === 3) {
 				this.windowCells.push(ij);
 			}
+			if (value === 0 && !this.isAboveObstacle(ij)) {
+				++this.buildableCellCount;
+			}
 		}, this);
 	},
 
 	onTick: function() {
+		if (this.webCells.getLength() >= this.buildableCellCount * SR.winConditionPercent / 100) {
+			this.victory.set(true);
+			return;
+		}
 		this.tick.set(this.tick.get() + 1);
 		this.units.each(JW.byMethod("move", [this]));
 		this.flies.each(JW.byMethod("move", [this]));

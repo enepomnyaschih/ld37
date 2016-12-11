@@ -78,10 +78,14 @@ JW.extend(SR.LevelView, JW.UI.Component, {
 				case 11: return "Hungry spiders can not build, and they may die hungry death if they stay outside the web";
 				case 12: return "Catch and eat flies to feed the spiders";
 				case 13: return "Avoid engaging a guy to keep your minions alive";
-				default: return "Cover 50% of all territory with web to achieve the victory";
+				default: return "Cover " + SR.winConditionPercent + "% of all territory with web to achieve the victory";
 			}
 		}, this));
 		this.own(el.jwtext(text));
+	},
+
+	renderVictory: function(el) {
+		this.own(el.jwshow(this.level.victory));
 	},
 
 	renderSelection: function(el) {

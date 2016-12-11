@@ -5,9 +5,10 @@ var SR = {
 	flyKillProbability: .3,
 	maxUnitSize: 3,
 	spiderEnergyFillingPerFly: .5,
-	spiderEnergyPerWeb: 0.05,
+	spiderEnergyPerWeb: 0.1,
 	spiderKillProbability: .5,
 	tickPerSecond: 25,
+	winConditionPercent: 25,
 
 	dir4: [
 		[0, 1],
