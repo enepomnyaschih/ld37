@@ -164,8 +164,8 @@ JW.extend(SR.Level, JW.Class, {
 
 	_initMainPathingMatrix: function(considerObstacles) {
 		var matrix = new SR.Matrix(this.matrix.size);
-		for (var i = 0; i < matrix.size; ++i) {
-			for (var j = 0; j < matrix.size; ++j) {
+		for (var i = 0; i < matrix.size[0]; ++i) {
+			for (var j = 0; j < matrix.size[1]; ++j) {
 				var ij = [i, j];
 				matrix.setCell(ij, this._isPassable(ij, considerObstacles));
 			}
@@ -175,8 +175,8 @@ JW.extend(SR.Level, JW.Class, {
 
 	_extendPathingMatrix: function(source) {
 		var matrix = new SR.Matrix(this.matrix.size);
-		for (var i = 0; i < matrix.size; ++i) {
-			for (var j = 0; j < matrix.size; ++j) {
+		for (var i = 0; i < matrix.size[0]; ++i) {
+			for (var j = 0; j < matrix.size[1]; ++j) {
 				var ij = [i, j];
 				var passable = true;
 				for (var d = 0; d < 8; ++d) {

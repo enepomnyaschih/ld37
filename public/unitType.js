@@ -78,7 +78,7 @@ SR.UnitType.registerItem(new SR.UnitType({
 SR.UnitType.registerItem(new SR.UnitType({
 	id: "habitant",
 	speed: 0.2,
-	size: 3,
+	size: SR.maxUnitSize,
 	hitsObstacles: true,
 	viewCreator: function(unit) {
 		return new SR.HabitantUnitView(unit);

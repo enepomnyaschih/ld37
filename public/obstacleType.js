@@ -28,3 +28,23 @@ SR.ObstacleType.registerItem(new SR.ObstacleType({
 		return this.isInRectangle(ij) && (ij[1] < 6 || ij[1] >= 13);
 	}
 }));
+
+SR.ObstacleType.registerItem(new SR.ObstacleType({
+	id: "table",
+	size: [9, 9],
+	ijAction: [8, 4],
+	actionTickCount: 150,
+	hitChecker: function(ij) {
+		return this.isInRectangle(ij) && ij[0] < 5;
+	}
+}));
+
+SR.ObstacleType.registerItem(new SR.ObstacleType({
+	id: "cabinet",
+	size: [11, 11],
+	ijAction: [10, 5],
+	actionTickCount: 150,
+	hitChecker: function(ij) {
+		return this.isInRectangle(ij) && ij[0] < 7;
+	}
+}));
