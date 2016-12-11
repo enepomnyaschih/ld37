@@ -28,8 +28,15 @@ SR.UnitType.registerItem(new SR.UnitType({
 		return new SR.SpiderUnitView(unit);
 	},
 	mover: function(unit, level) {
+		// Eating flies
+		var fly = level.getEatableFly(unit.ij.get());
+		if (fly) {
+			level.flies.removeItem(fly);
+			unit.energy.set(Math.min(1, unit.energy.get() + SR.spiderEnergyFillingPerFly));
+		}
+
+		// Building web
 		if (level.isWebCell(unit.ij.get())) {
-			unit.energy.set(Math.min(1, unit.energy.get() + 1 / SR.spiderEnergyFillingPeriod));
 			return;
 		}
 		if (!unit.active.get()) {

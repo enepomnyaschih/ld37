@@ -1,8 +1,8 @@
 var SR = {
 	attackDistance: 6,
 	cellSize: 16,
-	spiderEnergyFillingPeriod: 1500,
-	spiderEnergyPerWeb: 0.1,
+	spiderEnergyFillingPerFly: .5,
+	spiderEnergyPerWeb: 0.05,
 	tickPerSecond: 25,
 
 	dir4: [

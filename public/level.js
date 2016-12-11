@@ -154,6 +154,14 @@ JW.extend(SR.Level, JW.Class, {
 		}, this);
 	},
 
+	getEatableFly: function(ij) {
+		return this.flies.search(function(fly) {
+			var min = SR.Vector.floor(SR.Vector.diff(fly.ij.get(), [.5, .5]));
+			var max = SR.Vector.floor(SR.Vector.add (fly.ij.get(), [.5, .5]));
+			return (fly.healthTicks <= 0) && SR.Vector.isBetween(ij, min, max);
+		}, this);
+	},
+
 	_initMainPathingMatrix: function(considerObstacles) {
 		var matrix = new SR.Matrix(this.matrix.size);
 		for (var i = 0; i < matrix.size; ++i) {
