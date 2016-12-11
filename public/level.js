@@ -28,6 +28,7 @@ JW.extend(SR.Level, JW.Class, {
 	onTick: function() {
 		this.tick.set(this.tick.get() + 1);
 		this.units.each(JW.byMethod("move", [this]));
+		this.flies.each(JW.byMethod("move", [this]));
 	},
 
 	isPassable: function(ij, unitSize, considerUnits, considerObstacles) {
